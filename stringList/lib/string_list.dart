@@ -8,6 +8,10 @@ class StringList {
     _list.add(value);
   }
 
+  void sort() {
+    _list.sort();
+  }
+
   void printAll() {
     if (_list.isEmpty) {
       stdout.writeln('list is empty');
