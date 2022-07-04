@@ -14,11 +14,11 @@ Future<void> makeIndexFile(String folderName, String address) async {
 }
 
 Future<void> makeFiles(String tag, String path, String address) async {
-  var response = await http.Client().get(Uri.parse(address));
-  var urls = getUrls(response.body, tag, address);
+  final response = await http.Client().get(Uri.parse(address));
+  final urls = getUrls(response.body, tag, address);
 
   for (var url in urls) {
-    var fileName = makeCorrectFileName(url);
+    final fileName = makeCorrectFileName(url);
 
     final response = await http.Client().get(Uri.parse(url));
     final file = await File('$path$fileName').create();
