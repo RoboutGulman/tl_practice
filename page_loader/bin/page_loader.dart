@@ -4,9 +4,9 @@ import 'package:page_loader/parse_address.dart';
 void main(List<String> arguments) async {
   var address = "https://www.travelline.ru";
   var siteName = parseAddresToName(address);
-  createFolder('', siteName);
-  makeIndexFile(siteName, address);
-  createFolder('$siteName/', '${siteName}_files');
-  makeFiles('script[src]', '$siteName/${siteName}_files/', address);
-  makeFiles('link[href]', '$siteName/${siteName}_files/', address);
+  await createFolder('', siteName);
+  await makeIndexFile(siteName, address);
+  await createFolder('$siteName/', '${siteName}_files');
+  await makeFiles('script[src]', '$siteName/${siteName}_files/', address);
+  await makeFiles('link[href]', '$siteName/${siteName}_files/', address);
 }

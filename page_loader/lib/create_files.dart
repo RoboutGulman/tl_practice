@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:page_loader/get_urls.dart';
 import 'package:page_loader/parse_address.dart';
 
-void makeIndexFile(String folderName, String address) async {
+Future<void> makeIndexFile(String folderName, String address) async {
   final url = Uri.parse(address);
   final response = await http.Client().get(url);
 
@@ -13,7 +13,7 @@ void makeIndexFile(String folderName, String address) async {
   await indexFile.writeAsBytes(response.bodyBytes);
 }
 
-void makeFiles(String tag, String path, String address) async {
+Future<void> makeFiles(String tag, String path, String address) async {
   var response = await http.Client().get(Uri.parse(address));
   var urls = getUrls(response.body, tag, address);
 
@@ -26,7 +26,7 @@ void makeFiles(String tag, String path, String address) async {
   }
 }
 
-void createFolder(String path, String folderName) async {
+Future<void> createFolder(String path, String folderName) async {
   Directory root = Directory('$path$folderName');
   await root.create(recursive: false);
 }
