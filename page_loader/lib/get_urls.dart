@@ -11,6 +11,9 @@ List<String> getUrls(String responseBody, String tag, String address) {
     var src = link.attributes[match![1]] ?? '';
     if (src[0] == '/') {
       src = '$address$src';
+    } else
+    if (src[0] != 'h') {
+      src = '$address/$src';
     }
     result.add(src);
   }
