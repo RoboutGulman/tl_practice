@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../presentation/GenerateRandomColorsList.dart';
-import 'AddAndRemoveButtons.dart';
+import 'ButtonBar.dart';
 
 import 'ListOfSquares.dart';
 
