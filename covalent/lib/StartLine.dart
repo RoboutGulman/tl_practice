@@ -10,18 +10,23 @@ const List<String> _weekDays = [
   "Sun"
 ];
 
+List<String> _generateStartLineTitles() {
+  List<String> startLine = [];
+  for (int i = 0; i < 5; i++) {
+    startLine += _weekDays;
+  }
+  startLine.add("Mon");
+  startLine.add("Tue");
+  return startLine;
+}
+
 class StartLine extends StatelessWidget {
   const StartLine(this.year, {Key? key}) : super(key: key);
   final int year;
 
   @override
   Widget build(BuildContext context) {
-    List<String> startLine = [];
-    for (int i = 0; i < 5; i++) {
-      startLine += _weekDays;
-    }
-    startLine.add("Mon");
-    startLine.add("Tue");
+    var startLine = _generateStartLineTitles();
     return Row(
       children: [
         Expanded(
