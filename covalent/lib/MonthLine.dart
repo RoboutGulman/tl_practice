@@ -1,8 +1,6 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 
 class Date {
@@ -13,25 +11,25 @@ class Date {
 }
 
 List<Date> generateDateList(DateTime initialDate) {
-  List<Date> result = [];
+  List<Date> dateList = [];
   for (int i = 1; i < initialDate.weekday; i++) {
-    result.add(Date(0, Colors.grey, Colors.grey));
+    dateList.add(Date(0, Colors.grey, Colors.grey));
   }
   var currDate = initialDate;
   int i = 0;
   while (currDate.month == initialDate.month) {
     i++;
     if (currDate.weekday == 6 || currDate.weekday == 7) {
-      result.add(Date(i, Colors.pink, Colors.orange));
+      dateList.add(Date(i, Colors.pink, Colors.orange));
     } else {
-      result.add(Date(i, Colors.yellow, Colors.orange));
+      dateList.add(Date(i, Colors.yellow, Colors.orange));
     }
     currDate = currDate.add(const Duration(days: 1));
   }
-  while (result.length < 37) {
-    result.add(Date(0, Colors.grey, Colors.grey));
+  while (dateList.length < 37) {
+    dateList.add(Date(0, Colors.grey, Colors.grey));
   }
-  return result;
+  return dateList;
 }
 
 class MonthLine extends StatelessWidget {
