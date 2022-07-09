@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GreyLine extends StatelessWidget {
-  const GreyLine(this.length, {Key? key}) : super(key: key);
+class SpaceLine extends StatelessWidget {
+  const SpaceLine(this.length, {Key? key}) : super(key: key);
 
   final int length;
   

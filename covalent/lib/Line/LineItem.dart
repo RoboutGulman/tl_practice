@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'model/DateList.dart';
 
-class DayOfMonthItem extends StatelessWidget {
-  const DayOfMonthItem(this.date, {Key? key}) : super(key: key);
+class LineItem extends StatelessWidget {
+  const LineItem(this.date, {Key? key}) : super(key: key);
 
   final TableItem date;
   

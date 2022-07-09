@@ -13,11 +13,11 @@ class Line extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        MonthNameItem(lineView.title),
-        GreyLine(lineView.spaceBefore),
+        LineTitleItem(lineView.title),
+        SpaceLine(lineView.spaceBefore),
         for (int i = 0; i < lineView.dateList.length; i++)
-          DayOfMonthItem(lineView.dateList[i]),
-        GreyLine(lineView.spaceAfter),
+          LineItem(lineView.dateList[i]),
+        SpaceLine(lineView.spaceAfter),
       ],
     );
   }

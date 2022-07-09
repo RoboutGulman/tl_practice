@@ -9,7 +9,7 @@ class LineView {
 }
 
 LineView generateLineViewForMonth(String title, DateTime initialDate) {
-  var itemList = generateMonthTableItemListFromDate(initialDate);
+  var itemList = generateTableItemsForMonthLine(initialDate);
   var spaceBefore = initialDate.weekday - 1;
   var spaceAfter = 37 - itemList.length - spaceBefore;
   LineView result = LineView(title, itemList, spaceBefore, spaceAfter);

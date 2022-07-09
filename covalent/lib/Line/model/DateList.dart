@@ -7,7 +7,7 @@ class TableItem {
   Color borderColor;
 }
 
-List<TableItem> generateMonthTableItemListFromDate(DateTime initialDate) {
+List<TableItem> generateTableItemsForMonthLine(DateTime initialDate) {
   List<TableItem> itemList = [];
   var currDate = initialDate;
   int i = 0;

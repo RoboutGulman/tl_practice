@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'YearCovalent.dart';
+import 'OneYearCovalent.dart';
 
-class Covalent extends StatelessWidget {
-  const Covalent({Key? key}) : super(key: key);
+class InfiniteCovalent extends StatelessWidget {
+  const InfiniteCovalent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemBuilder: (BuildContext buildContext, int index) {
-      return YearCovalent(2022 + index);
+      return OneYearCovalent(2022 + index);
     });
   }
 }

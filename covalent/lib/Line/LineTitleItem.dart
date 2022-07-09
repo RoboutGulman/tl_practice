@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MonthNameItem extends StatelessWidget {
-  const MonthNameItem(this.title, {Key? key}) : super(key: key);
+class LineTitleItem extends StatelessWidget {
+  const LineTitleItem(this.title, {Key? key}) : super(key: key);
 
   final String title;
 
