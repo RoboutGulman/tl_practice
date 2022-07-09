@@ -1,20 +1,19 @@
-import 'package:covalent/MonthLine/DayOfMonthItem.dart';
-import 'package:covalent/MonthLine/GreyLine.dart';
 import 'package:flutter/material.dart';
 
+import 'SpaceLine.dart';
+import 'LineItem.dart';
 import 'model/LineView.dart';
-import 'MonthNameItem.dart';
+import 'LineTitleItem.dart';
 
-class MonthLine extends StatelessWidget {
-  const MonthLine(this.startDate, {Key? key}) : super(key: key);
-  final DateTime startDate;
+class Line extends StatelessWidget {
+  const Line(this.lineView, {Key? key}) : super(key: key);
+  final LineView lineView;
 
   @override
   Widget build(BuildContext context) {
-    final lineView = generateLineView(startDate);
     return Row(
       children: [
-        MonthNameItem(startDate),
+        MonthNameItem(lineView.title),
         GreyLine(lineView.spaceBefore),
         for (int i = 0; i < lineView.dateList.length; i++)
           DayOfMonthItem(lineView.dateList[i]),

@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'model/DateList.dart';
 
 class DayOfMonthItem extends StatelessWidget {
   const DayOfMonthItem(this.date, {Key? key}) : super(key: key);
 
-  final Date date;
+  final TableItem date;
   
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class DayOfMonthItem extends StatelessWidget {
           border: Border.all(color: date.borderColor),
         ),
         child: Center(
-          child: Text("${date.number}"),
+          child: Text(date.content),
         ),
       ),
     );
