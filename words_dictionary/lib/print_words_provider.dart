@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:stage3/data/language.dart';
-import 'package:stage3/data/words_service.dart' as words_service;
 import 'package:stage3/language_filters_provider.dart';
+import 'package:stage3/words_provider.dart';
+
+import 'data/word.dart';
 
 class PrintWordsProvider extends StatefulWidget {
   const PrintWordsProvider({Key? key, required this.child}) : super(key: key);
@@ -18,6 +20,14 @@ class PrintWordsProviderState extends State<PrintWordsProvider> {
   @override
   void didChangeDependencies() {
     final filters = LanguageFiltersInheritedNotifier.of(context);
+
+    final words = WordsInheritedNotifier.of(context);
+    model.words= words.wordList;
+
+    words.addListener(() {
+      model.words = words.wordList;
+    });
+
     filters.addListener(() {
       model.wordLanguage = filters.wordLanguage;
       model.translationLanguage = filters.translationLanguage;
@@ -41,15 +51,14 @@ class PrintWordsProviderState extends State<PrintWordsProvider> {
 class PrintWordsProviderModel extends ChangeNotifier {
   var wordLanguage = Language.russian;
   var translationLanguage = Language.english;
+  List<Word> words = [];
 
   final _wordIds = <int>{};
   Set<int> get wordIds => _wordIds;
 
   void printWords() {
-    final result = words_service
-        .getWords()
-        .where((word) => _wordIds.contains(word.id))
-        .map((word) {
+    final result =
+        words.where((word) => _wordIds.contains(word.id)).map((word) {
       final translations = word.translations;
 
       return '${translations[wordLanguage]} - ${translations[translationLanguage]}';

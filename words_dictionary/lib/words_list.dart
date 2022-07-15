@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stage3/data/word.dart';
-import 'package:stage3/data/words_service.dart';
 import 'package:stage3/language_filters_provider.dart';
 import 'package:stage3/print_words_provider.dart';
 import 'package:stage3/style.dart';
+import 'package:stage3/words_provider.dart';
 
 class WordsList extends StatefulWidget {
   const WordsList({Key? key}) : super(key: key);
@@ -13,21 +13,15 @@ class WordsList extends StatefulWidget {
 }
 
 class _WordsListState extends State<WordsList> {
-  List<Word> _words = [];
-
-  @override
-  void initState() {
-    _words = getWords();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    final words = WordsInheritedNotifier.of(context).wordList;
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: _words.length,
+      itemCount: words.length,
       itemBuilder: (_, index) {
-        final word = _words[index];
+        final word = words[index];
 
         return Row(
           children: [

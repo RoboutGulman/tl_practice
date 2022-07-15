@@ -4,6 +4,7 @@ import 'package:stage3/language_filters_provider.dart';
 import 'package:stage3/print_words_provider.dart';
 import 'package:stage3/style.dart';
 import 'package:stage3/words_list.dart';
+import 'package:stage3/words_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,22 +13,24 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 24),
-      child: LanguageFiltersProvider(
-        child: PrintWordsProvider(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(child: _WordLanguageDropdownField()),
-                  Expanded(child: _TranslationLanguageDropdownField()),
-                  Expanded(child: Center(child: _PrintButton())),
-                ],
-              ),
-              const SizedBox(
-                height: 56,
-              ),
-              const WordsList(),
-            ],
+      child: WordsProvider(
+        child: LanguageFiltersProvider(
+          child: PrintWordsProvider(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(child: _WordLanguageDropdownField()),
+                    Expanded(child: _TranslationLanguageDropdownField()),
+                    Expanded(child: Center(child: _PrintButton())),
+                  ],
+                ),
+                const SizedBox(
+                  height: 56,
+                ),
+                const WordsList(),
+              ],
+            ),
           ),
         ),
       ),
