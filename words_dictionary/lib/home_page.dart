@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stage3/data/language.dart';
 import 'package:stage3/language_filters_provider.dart';
-import 'package:stage3/print_words_provider.dart';
 import 'package:stage3/style.dart';
 import 'package:stage3/words_list.dart';
 import 'package:stage3/words_provider.dart';
@@ -13,24 +12,23 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 24),
-      child: WordsProvider(
-        child: LanguageFiltersProvider(
-          child: PrintWordsProvider(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(child: _WordLanguageDropdownField()),
-                    Expanded(child: _TranslationLanguageDropdownField()),
-                    Expanded(child: Center(child: _PrintButton())),
-                  ],
-                ),
-                const SizedBox(
-                  height: 56,
-                ),
-                const WordsList(),
-              ],
-            ),
+      child: LanguageFiltersProvider(
+        child: WordsProvider(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(child: _WordLanguageDropdownField()),
+                  Expanded(child: _TranslationLanguageDropdownField()),
+                  Expanded(child: Center(child: _PrintButton())),
+                  Expanded(child: Center(child: _DeleteButton())),
+                ],
+              ),
+              const SizedBox(
+                height: 56,
+              ),
+              const WordsList(),
+            ],
           ),
         ),
       ),
@@ -38,11 +36,11 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _PrintButton extends StatelessWidget {
+class _DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final model = PrintWordsInheritedNotifier.of(context);
-    final wordIds = model.wordIds;
+    final model = WordsInheritedNotifier.of(context);
+    final wordIds = model.selectedWordIds;
     final wordsLength = wordIds.length;
     final wordsLengthString = wordsLength == 0 ? '' : ' $wordsLength words';
 
@@ -50,7 +48,25 @@ class _PrintButton extends StatelessWidget {
       style: TextButton.styleFrom(
         textStyle: const TextStyle(fontSize: fontSize),
       ),
-      onPressed: wordsLength == 0 ? null : model.printWords,
+      onPressed: wordsLength == 0 ? null : model.removeSelectedWords,
+      child: Text('Delete$wordsLengthString'),
+    );
+  }
+}
+
+class _PrintButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final model = WordsInheritedNotifier.of(context);
+    final wordIds = model.selectedWordIds;
+    final wordsLength = wordIds.length;
+    final wordsLengthString = wordsLength == 0 ? '' : ' $wordsLength words';
+
+    return TextButton(
+      style: TextButton.styleFrom(
+        textStyle: const TextStyle(fontSize: fontSize),
+      ),
+      onPressed: wordsLength == 0 ? null : model.printSelectedWords,
       child: Text('Print$wordsLengthString'),
     );
   }

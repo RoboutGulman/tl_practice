@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stage3/data/word.dart';
 import 'package:stage3/language_filters_provider.dart';
-import 'package:stage3/print_words_provider.dart';
 import 'package:stage3/style.dart';
 import 'package:stage3/words_provider.dart';
 
@@ -13,7 +12,6 @@ class WordsList extends StatefulWidget {
 }
 
 class _WordsListState extends State<WordsList> {
-
   @override
   Widget build(BuildContext context) {
     final words = WordsInheritedNotifier.of(context).wordList;
@@ -74,13 +72,14 @@ class _WordCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = PrintWordsInheritedNotifier.of(context);
+    final model = WordsInheritedNotifier.of(context);
 
     return Checkbox(
       checkColor: Colors.white,
-      value: model.wordIds.contains(word.id),
-      onChanged: (bool? value) =>
-          ((value ?? false) ? model.addWord : model.removeWord)(word.id),
+      value: model.selectedWordIds.contains(word.id),
+      onChanged: (bool? value) => ((value ?? false)
+          ? model.selectWord
+          : model.unselectWord)(word.id),
     );
   }
 }
