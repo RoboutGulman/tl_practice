@@ -20,8 +20,19 @@ class HomePage extends StatelessWidget {
                 children: [
                   Expanded(child: _WordLanguageDropdownField()),
                   Expanded(child: _TranslationLanguageDropdownField()),
-                  Expanded(child: Center(child: _PrintButton())),
-                  Expanded(child: Center(child: _DeleteButton())),
+                  Expanded(
+                    flex: 2,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const _AddWordButton(),
+                          _PrintButton(),
+                          _DeleteButton(),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -118,7 +129,7 @@ class _LanguageDropdownField extends StatelessWidget {
           label,
           style: const TextStyle(fontSize: fontSize),
         ),
-        const SizedBox(width: 24),
+        const SizedBox(width: 20),
         DropdownButton<Language>(
           value: value,
           icon: const Icon(Icons.arrow_downward),
@@ -141,6 +152,70 @@ class _LanguageDropdownField extends StatelessWidget {
               .toList(),
         ),
       ],
+    );
+  }
+}
+
+class _AddWordButton extends StatefulWidget {
+  const _AddWordButton({Key? key}) : super(key: key);
+
+  @override
+  State<_AddWordButton> createState() => _AddWordButtonState();
+}
+
+class _AddWordButtonState extends State<_AddWordButton> {
+  Map<Language, String> translations = {};
+
+  _onChange(Language language, String value) {
+    translations[language] = value;
+  }
+
+  _clearTranslations() {
+    translations.clear();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final model = WordsInheritedNotifier.of(context);
+    return TextButton(
+      onPressed: () => showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Type word in all of languages'),
+          content: Column(
+            children: Language.values
+                .map(
+                  (Language value) => TextField(
+                    onChanged: (String string) => {_onChange(value, string)},
+                    decoration: InputDecoration(
+                      //border: OutlineInputBorder(),
+                      labelText: value.name,
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () =>
+                  {Navigator.pop(context, 'Cancel'), _clearTranslations()},
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => {
+                model.addWord(translations),
+                _clearTranslations(),
+                Navigator.pop(context, 'OK'),
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      ),
+      child: const Text(
+        'Add new Word',
+        style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.normal),
+      ),
     );
   }
 }

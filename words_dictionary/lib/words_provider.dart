@@ -53,7 +53,8 @@ class WordsModel extends ChangeNotifier {
 
   void addWord(Map<Language, String> translations) {
     final newWordtId = _wordList.length + 1;
-    final newWord = Word(id: newWordtId, translations: translations);
+    final newWord = Word(
+        id: newWordtId, translations: Map<Language, String>.from(translations));
     _wordList.add(newWord);
     notifyListeners();
   }

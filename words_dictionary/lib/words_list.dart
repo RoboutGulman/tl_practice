@@ -77,9 +77,8 @@ class _WordCheckbox extends StatelessWidget {
     return Checkbox(
       checkColor: Colors.white,
       value: model.selectedWordIds.contains(word.id),
-      onChanged: (bool? value) => ((value ?? false)
-          ? model.selectWord
-          : model.unselectWord)(word.id),
+      onChanged: (bool? value) =>
+          ((value ?? false) ? model.selectWord : model.unselectWord)(word.id),
     );
   }
 }
