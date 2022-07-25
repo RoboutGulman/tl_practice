@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:stage3/data/language.dart';
-import 'package:stage3/language_filters_provider.dart';
-import 'package:stage3/style.dart';
-import 'package:stage3/words_list.dart';
-import 'package:stage3/words_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words_dictionary_riverpod/data/language.dart';
+import 'package:words_dictionary_riverpod/model/add_new_translations_state.dart';
+import 'package:words_dictionary_riverpod/model/words_dictionary_state.dart';
+import 'package:words_dictionary_riverpod/style.dart';
+import 'package:words_dictionary_riverpod/words_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,46 +13,43 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 24),
-      child: LanguageFiltersProvider(
-        child: WordsProvider(
-          child: Column(
+      child: Column(
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Expanded(child: _WordLanguageDropdownField()),
-                  Expanded(child: _TranslationLanguageDropdownField()),
-                  Expanded(
-                    flex: 2,
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const _AddWordButton(),
-                          _PrintButton(),
-                          _DeleteButton(),
-                        ],
-                      ),
-                    ),
+              Expanded(child: _WordLanguageDropdownField()),
+              Expanded(child: _TranslationLanguageDropdownField()),
+              Expanded(
+                flex: 2,
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const _AddWordButton(),
+                      _PrintButton(),
+                      _DeleteButton(),
+                    ],
                   ),
-                ],
+                ),
               ),
-              const SizedBox(
-                height: 56,
-              ),
-              const WordsList(),
             ],
           ),
-        ),
+          const SizedBox(
+            height: 56,
+          ),
+          const WordsList(),
+        ],
       ),
     );
   }
 }
 
-class _DeleteButton extends StatelessWidget {
+class _DeleteButton extends ConsumerWidget {
+  const _DeleteButton({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    final model = WordsInheritedNotifier.of(context);
-    final wordIds = model.selectedWordIds;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final wordIds = ref.watch(wordsDictionaryProvider).selectedWordIds;
     final wordsLength = wordIds.length;
     final wordsLengthString = wordsLength == 0 ? '' : ' $wordsLength words';
 
@@ -59,17 +57,22 @@ class _DeleteButton extends StatelessWidget {
       style: TextButton.styleFrom(
         textStyle: const TextStyle(fontSize: fontSize),
       ),
-      onPressed: wordsLength == 0 ? null : model.removeSelectedWords,
+      onPressed: () {
+        wordsLength == 0
+            ? null
+            : ref.read(wordsDictionaryProvider.notifier).removeSelectedWords();
+      },
       child: Text('Delete$wordsLengthString'),
     );
   }
 }
 
-class _PrintButton extends StatelessWidget {
+class _PrintButton extends ConsumerWidget {
+  const _PrintButton({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    final model = WordsInheritedNotifier.of(context);
-    final wordIds = model.selectedWordIds;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final wordIds = ref.watch(wordsDictionaryProvider).selectedWordIds;
     final wordsLength = wordIds.length;
     final wordsLengthString = wordsLength == 0 ? '' : ' $wordsLength words';
 
@@ -77,33 +80,40 @@ class _PrintButton extends StatelessWidget {
       style: TextButton.styleFrom(
         textStyle: const TextStyle(fontSize: fontSize),
       ),
-      onPressed: wordsLength == 0 ? null : model.printSelectedWords,
+      onPressed: () {
+        wordsLength == 0
+            ? null
+            : ref.read(wordsDictionaryProvider).printSelectedWords();
+      },
       child: Text('Print$wordsLengthString'),
     );
   }
 }
 
-class _WordLanguageDropdownField extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final model = LanguageFiltersInheritedNotifier.of(context);
+class _WordLanguageDropdownField extends ConsumerWidget {
+  const _WordLanguageDropdownField({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return _LanguageDropdownField(
-      value: model.wordLanguage,
-      onChanged: (Language value) => model.wordLanguage = value,
+      value: ref.watch(currentLanguagesProvider).wordLanguage,
+      onChanged: (Language value) =>
+          ref.read(currentLanguagesProvider.notifier).setWordLanguage(value),
       label: 'Word language:',
     );
   }
 }
 
-class _TranslationLanguageDropdownField extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final model = LanguageFiltersInheritedNotifier.of(context);
+class _TranslationLanguageDropdownField extends ConsumerWidget {
+  const _TranslationLanguageDropdownField({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return _LanguageDropdownField(
-      value: model.translationLanguage,
-      onChanged: (Language value) => model.translationLanguage = value,
+      value: ref.watch(currentLanguagesProvider).translationLanguage,
+      onChanged: (Language value) => ref
+          .read(currentLanguagesProvider.notifier)
+          .setTranslationLanguage(value),
       label: 'Word language:',
     );
   }
@@ -156,27 +166,13 @@ class _LanguageDropdownField extends StatelessWidget {
   }
 }
 
-class _AddWordButton extends StatefulWidget {
+class _AddWordButton extends ConsumerWidget {
   const _AddWordButton({Key? key}) : super(key: key);
 
   @override
-  State<_AddWordButton> createState() => _AddWordButtonState();
-}
-
-class _AddWordButtonState extends State<_AddWordButton> {
-  Map<Language, String> translations = {};
-
-  _onChange(Language language, String value) {
-    translations[language] = value;
-  }
-
-  _clearTranslations() {
-    translations.clear();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final model = WordsInheritedNotifier.of(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(newWordTranslationProvider);
+    final newWordTranslations = ref.read(newWordTranslationProvider.notifier);
     return TextButton(
       onPressed: () => showDialog<String>(
         context: context,
@@ -186,7 +182,8 @@ class _AddWordButtonState extends State<_AddWordButton> {
             children: Language.values
                 .map(
                   (Language value) => TextField(
-                    onChanged: (String string) => {_onChange(value, string)},
+                    onChanged: (String string) =>
+                        {newWordTranslations.changeTranslations(value, string)},
                     decoration: InputDecoration(
                       //border: OutlineInputBorder(),
                       labelText: value.name,
@@ -197,15 +194,19 @@ class _AddWordButtonState extends State<_AddWordButton> {
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () =>
-                  {Navigator.pop(context, 'Cancel'), _clearTranslations()},
+              onPressed: () => {
+                Navigator.pop(context, 'Cancel'),
+                newWordTranslations.clearTranslations()
+              },
               child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () => {
                 //сделать проверку на пустые формы
-                model.addWord(translations),
-                _clearTranslations(),
+                ref
+                    .read(wordsDictionaryProvider.notifier)
+                    .addWord(model.translations),
+                newWordTranslations.clearTranslations(),
                 Navigator.pop(context, 'OK'),
               },
               child: const Text('OK'),
