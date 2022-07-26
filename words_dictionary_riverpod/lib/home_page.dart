@@ -17,10 +17,11 @@ class HomePage extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Expanded(child: _WordLanguageDropdownField()),
-              const Expanded(child: _TranslationLanguageDropdownField()),
+              const Expanded(flex: 2, child: _WordLanguageDropdownField()),
+              const Expanded(
+                  flex: 2, child: _TranslationLanguageDropdownField()),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -167,58 +168,3 @@ class _LanguageDropdownField extends StatelessWidget {
     );
   }
 }
-
-/*class _AddWordButton extends ConsumerWidget {
-  const _AddWordButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(newWordTranslationProvider);
-    final newWordTranslations = ref.read(newWordTranslationProvider.notifier);
-    return TextButton(
-      onPressed: () => showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('Type word in all of languages'),
-          content: Column(
-            children: Language.values
-                .map(
-                  (Language value) => TextField(
-                    onChanged: (String string) =>
-                        {newWordTranslations.changeTranslations(value, string)},
-                    decoration: InputDecoration(
-                      labelText: value.name,
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => {
-                Navigator.pop(context, 'Cancel'),
-                newWordTranslations.clearTranslations()
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => {
-                //сделать проверку на пустые формы
-                ref
-                    .read(wordsDictionaryProvider.notifier)
-                    .addWord(model.translations),
-                newWordTranslations.clearTranslations(),
-                Navigator.pop(context, 'OK'),
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      ),
-      child: const Text(
-        'Add new Word',
-        style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.normal),
-      ),
-    );
-  }
-}*/
