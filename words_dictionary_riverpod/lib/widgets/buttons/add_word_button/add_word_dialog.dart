@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:words_dictionary_riverpod/data/language.dart';
-import 'package:words_dictionary_riverpod/widgets/buttons/add_word_button/new_word_translation_fields.dart';
+
+import 'new_word_translation_fields.dart';
 
 class AddWordDialog extends ConsumerWidget {
   const AddWordDialog(

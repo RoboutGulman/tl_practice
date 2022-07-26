@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:words_dictionary_riverpod/widgets/word_list/native_language_word.dart';
-import 'package:words_dictionary_riverpod/widgets/word_list/studied_naguage_word.dart';
-import 'package:words_dictionary_riverpod/widgets/word_list/word_checkbox.dart';
+import 'package:words_dictionary_riverpod/model/words_dictionary_state.dart';
 
-import '../../model/words_dictionary_state.dart';
+import 'native_language_word.dart';
+import 'studied_language_word.dart';
+import 'word_checkbox.dart';
 
 class WordsList extends ConsumerWidget {
   const WordsList({Key? key}) : super(key: key);

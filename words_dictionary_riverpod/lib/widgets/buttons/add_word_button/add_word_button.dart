@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words_dictionary_riverpod/data/language.dart';
 import 'package:words_dictionary_riverpod/model/words_dictionary_state.dart';
-import 'package:words_dictionary_riverpod/widgets/buttons/add_word_button/add_word_dialog.dart';
 import 'package:words_dictionary_riverpod/widgets/style.dart';
+
+import 'add_word_dialog.dart';
 
 class AddWordButton extends ConsumerStatefulWidget {
   const AddWordButton({Key? key}) : super(key: key);

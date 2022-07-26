@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:words_dictionary_riverpod/widgets/buttons/add_word_button/add_word_button.dart';
-import 'package:words_dictionary_riverpod/widgets/buttons/delete_button.dart';
-import 'package:words_dictionary_riverpod/widgets/buttons/print_button.dart';
-import 'package:words_dictionary_riverpod/widgets/dropdowns/translation_language_dropdown_field.dart';
-import 'package:words_dictionary_riverpod/widgets/dropdowns/word_language_dropdown_field.dart';
-import 'package:words_dictionary_riverpod/widgets/word_list/words_list.dart';
+
+import 'buttons/add_word_button/add_word_button.dart';
+import 'buttons/delete_button.dart';
+import 'buttons/print_button.dart';
+import 'dropdowns/translation_language_dropdown_field.dart';
+import 'dropdowns/word_language_dropdown_field.dart';
+import 'word_list/words_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
