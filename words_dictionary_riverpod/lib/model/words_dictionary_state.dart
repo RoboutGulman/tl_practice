@@ -3,30 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words_dictionary_riverpod/data/language.dart';
 import 'package:words_dictionary_riverpod/data/word.dart';
 import 'package:words_dictionary_riverpod/data/words_service.dart';
-
-@immutable
-class CurrentLanguages {
-  const CurrentLanguages(this.wordLanguage, this.translationLanguage);
-  final Language wordLanguage;
-  final Language translationLanguage;
-}
-
-class CurrentLanguagesNotifier extends StateNotifier<CurrentLanguages> {
-  CurrentLanguagesNotifier(Language word, Language translation)
-      : super(CurrentLanguages(word, translation));
-
-  void setWordLanguage(Language newWord) {
-    state = CurrentLanguages(newWord, state.translationLanguage);
-  }
-
-  void setTranslationLanguage(Language newTranslation) {
-    state = CurrentLanguages(state.wordLanguage, newTranslation);
-  }
-}
-
-final currentLanguagesProvider =
-    StateNotifierProvider<CurrentLanguagesNotifier, CurrentLanguages>(
-        (_) => CurrentLanguagesNotifier(Language.russian, Language.english));
+import 'package:words_dictionary_riverpod/model/currrent_language_state.dart';
 
 @immutable
 class WordsDictionary {

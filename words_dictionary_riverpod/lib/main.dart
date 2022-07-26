@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:words_dictionary_riverpod/home_page.dart';
+import 'package:words_dictionary_riverpod/widgets/home_page.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Stage3'),
+          title: const Text('Words Dictionary'),
         ),
         body: const HomePage(),
       ),
