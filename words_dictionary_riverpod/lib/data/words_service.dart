@@ -49,4 +49,4 @@ final _words = [
 ];
 /* pell:enable */
 
-List<Word> getWords() => _words;
+List<Word> getWords() => _words.toList();

@@ -67,7 +67,6 @@ class _WordCheckbox extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final model = ref.watch(wordsDictionaryProvider);
-    ;
 
     return Checkbox(
       checkColor: Colors.white,

@@ -30,14 +30,13 @@ final currentLanguagesProvider =
 
 @immutable
 class WordsDictionary {
-  const WordsDictionary(
-      this.wordList, this.selectedWordIds, this.currentLanguages);
+  const WordsDictionary(this.wordList, this.selectedWordIds);
 
   final List<Word> wordList;
   final Set<int> selectedWordIds;
-  final CurrentLanguages currentLanguages;
 
-  void printSelectedWords() {
+  //передавать current languages аргументом
+  void printSelectedWords(CurrentLanguages currentLanguages) {
     final result =
         wordList.where((word) => selectedWordIds.contains(word.id)).map((word) {
       final translations = word.translations;
@@ -51,12 +50,11 @@ class WordsDictionary {
 }
 
 class WordsDictionaryNotifier extends StateNotifier<WordsDictionary> {
-  WordsDictionaryNotifier(List<Word> wordList, Set<int> selectedWordIds,
-      CurrentLanguages currentLanguages)
-      : super(WordsDictionary(wordList, selectedWordIds, currentLanguages));
+  WordsDictionaryNotifier(List<Word> wordList, Set<int> selectedWordIds)
+      : super(WordsDictionary(wordList, selectedWordIds));
 
-  void printSelectedWords() {
-    state.printSelectedWords();
+  void printSelectedWords(CurrentLanguages currentLanguages) {
+    state.printSelectedWords(currentLanguages);
   }
 
   void addWord(Map<Language, String> translations) {
@@ -65,23 +63,21 @@ class WordsDictionaryNotifier extends StateNotifier<WordsDictionary> {
     final newWord = Word(
         id: newWordtId, translations: Map<Language, String>.from(translations));
     newWordList.add(newWord);
-    state = WordsDictionary(
-        newWordList, state.selectedWordIds, state.currentLanguages);
+    state = WordsDictionary(newWordList, state.selectedWordIds);
   }
 
   void removeSelectedWords() {
     var newWordList = state.wordList;
     newWordList
         .removeWhere((element) => state.selectedWordIds.contains(element.id));
-    state = WordsDictionary(newWordList, {}, state.currentLanguages);
+    state = WordsDictionary(newWordList, {});
   }
 
   void selectWord(int wordId) {
     if (!state.selectedWordIds.contains(wordId)) {
       var newSelectedWordIds = state.selectedWordIds;
       newSelectedWordIds.add(wordId);
-      state = WordsDictionary(
-          state.wordList, newSelectedWordIds, state.currentLanguages);
+      state = WordsDictionary(state.wordList, newSelectedWordIds);
     }
   }
 
@@ -89,14 +85,12 @@ class WordsDictionaryNotifier extends StateNotifier<WordsDictionary> {
     if (state.selectedWordIds.contains(wordId)) {
       var newSelectedWordIds = state.selectedWordIds;
       newSelectedWordIds.remove(wordId);
-      state = WordsDictionary(
-          state.wordList, newSelectedWordIds, state.currentLanguages);
+      state = WordsDictionary(state.wordList, newSelectedWordIds);
     }
   }
 }
 
 final wordsDictionaryProvider =
     StateNotifierProvider<WordsDictionaryNotifier, WordsDictionary>((ref) {
-  CurrentLanguages currentLanguages = ref.watch(currentLanguagesProvider);
-  return WordsDictionaryNotifier(getWords(), {}, currentLanguages);
+  return WordsDictionaryNotifier(getWords(), {});
 });

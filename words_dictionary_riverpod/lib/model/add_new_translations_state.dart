@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+/*import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words_dictionary_riverpod/data/language.dart';
 
 class NewWordTranslations {
@@ -27,3 +27,4 @@ class NewWordTranslationsNotifier extends StateNotifier<NewWordTranslations> {
 final newWordTranslationProvider =
     StateNotifierProvider<NewWordTranslationsNotifier, NewWordTranslations>(
         (_) => NewWordTranslationsNotifier({}));
+*/

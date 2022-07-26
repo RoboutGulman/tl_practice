@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words_dictionary_riverpod/add_word_button.dart';
 import 'package:words_dictionary_riverpod/data/language.dart';
-import 'package:words_dictionary_riverpod/model/add_new_translations_state.dart';
 import 'package:words_dictionary_riverpod/model/words_dictionary_state.dart';
 import 'package:words_dictionary_riverpod/style.dart';
 import 'package:words_dictionary_riverpod/words_list.dart';
@@ -17,15 +17,15 @@ class HomePage extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: _WordLanguageDropdownField()),
-              Expanded(child: _TranslationLanguageDropdownField()),
+              const Expanded(child: _WordLanguageDropdownField()),
+              const Expanded(child: _TranslationLanguageDropdownField()),
               Expanded(
                 flex: 2,
                 child: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const _AddWordButton(),
+                    children: const [
+                      AddWordButton(),
                       _PrintButton(),
                       _DeleteButton(),
                     ],
@@ -83,7 +83,9 @@ class _PrintButton extends ConsumerWidget {
       onPressed: () {
         wordsLength == 0
             ? null
-            : ref.read(wordsDictionaryProvider).printSelectedWords();
+            : ref
+                .read(wordsDictionaryProvider)
+                .printSelectedWords(ref.read(currentLanguagesProvider));
       },
       child: Text('Print$wordsLengthString'),
     );
@@ -114,7 +116,7 @@ class _TranslationLanguageDropdownField extends ConsumerWidget {
       onChanged: (Language value) => ref
           .read(currentLanguagesProvider.notifier)
           .setTranslationLanguage(value),
-      label: 'Word language:',
+      label: 'Translation language:',
     );
   }
 }
@@ -166,7 +168,7 @@ class _LanguageDropdownField extends StatelessWidget {
   }
 }
 
-class _AddWordButton extends ConsumerWidget {
+/*class _AddWordButton extends ConsumerWidget {
   const _AddWordButton({Key? key}) : super(key: key);
 
   @override
@@ -185,7 +187,6 @@ class _AddWordButton extends ConsumerWidget {
                     onChanged: (String string) =>
                         {newWordTranslations.changeTranslations(value, string)},
                     decoration: InputDecoration(
-                      //border: OutlineInputBorder(),
                       labelText: value.name,
                     ),
                   ),
@@ -220,4 +221,4 @@ class _AddWordButton extends ConsumerWidget {
       ),
     );
   }
-}
+}*/
