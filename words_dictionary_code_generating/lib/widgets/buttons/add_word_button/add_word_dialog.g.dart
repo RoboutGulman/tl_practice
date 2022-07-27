@@ -6,24 +6,10 @@ part of 'add_word_dialog.dart';
 // FunctionalWidgetGenerator
 // **************************************************************************
 
-class AddWordDialog extends ConsumerWidget {
-  const AddWordDialog(
-      {Key? key,
-      required this.changeTranslations,
-      required this.clearTranslations,
-      required this.addWordToDictionary})
-      : super(key: key);
-
-  final Function changeTranslations;
-
-  final Function clearTranslations;
-
-  final Function addWordToDictionary;
+class AddWordDialog extends HookConsumerWidget {
+  const AddWordDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext _context, WidgetRef _ref) =>
-      addWordDialog(_context, _ref,
-          changeTranslations: changeTranslations,
-          clearTranslations: clearTranslations,
-          addWordToDictionary: addWordToDictionary);
+      addWordDialog(_context, _ref);
 }

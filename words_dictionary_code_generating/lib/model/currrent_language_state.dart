@@ -1,25 +1,32 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../data/language.dart';
 
-@immutable
-class CurrentLanguages {
-  const CurrentLanguages(this.wordLanguage, this.translationLanguage);
-  final Language wordLanguage;
-  final Language translationLanguage;
+part 'currrent_language_state.g.dart';
+part 'currrent_language_state.freezed.dart';
+
+@freezed
+class CurrentLanguages with _$CurrentLanguages {
+  const factory CurrentLanguages(
+      {required Language wordLanguage,
+      required Language translationLanguage}) = _CurrentLanguages;
+
+  factory CurrentLanguages.fromJson(Map<String, Object?> json) =>
+      _$CurrentLanguagesFromJson(json);
 }
 
 class CurrentLanguagesNotifier extends StateNotifier<CurrentLanguages> {
   CurrentLanguagesNotifier(Language word, Language translation)
-      : super(CurrentLanguages(word, translation));
+      : super(CurrentLanguages(
+            wordLanguage: word, translationLanguage: translation));
 
   void setWordLanguage(Language newWord) {
-    state = CurrentLanguages(newWord, state.translationLanguage);
+    state = state.copyWith(wordLanguage: newWord);
   }
 
   void setTranslationLanguage(Language newTranslation) {
-    state = CurrentLanguages(state.wordLanguage, newTranslation);
+    state = state.copyWith(translationLanguage: newTranslation);
   }
 }
 

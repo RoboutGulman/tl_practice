@@ -1,12 +1,15 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'language.dart';
+part 'word.freezed.dart';
+part 'word.g.dart';
 
-class Word {
-  Word({
-    required this.translations,
-    required this.id,
-  });
+@freezed
+class Word with _$Word {
+  const factory Word({
+    required Map<Language, String> translations,
+    required int id,
+  }) = _Word;
 
-  final int id;
-  final Map<Language, String> translations;
+  factory Word.fromJson(Map<String, Object?> json) => _$WordFromJson(json);
 }

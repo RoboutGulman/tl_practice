@@ -1,11 +1,10 @@
-
 /* cSpell:disable */
 
 import 'language.dart';
 import 'word.dart';
 
 final _words = [
-  Word(
+  const Word(
     id: 1,
     translations: {
       Language.english: 'hello',
@@ -14,7 +13,7 @@ final _words = [
       Language.russian: 'привет',
     },
   ),
-  Word(
+  const Word(
     id: 2,
     translations: {
       Language.english: 'goodbye',
@@ -23,7 +22,7 @@ final _words = [
       Language.russian: 'до свидания',
     },
   ),
-  Word(
+  const Word(
     id: 3,
     translations: {
       Language.english: 'forest',
@@ -32,7 +31,7 @@ final _words = [
       Language.russian: 'лес',
     },
   ),
-  Word(
+  const Word(
     id: 4,
     translations: {
       Language.english: 'nature',
@@ -41,7 +40,7 @@ final _words = [
       Language.russian: 'природа',
     },
   ),
-  Word(id: 5, translations: {
+  const Word(id: 5, translations: {
     Language.english: 'ocean',
     Language.french: 'océan',
     Language.german: 'ozean',

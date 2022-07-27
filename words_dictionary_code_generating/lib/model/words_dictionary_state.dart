@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../data/language.dart';
 import '../data/word.dart';
 import '../data/words_service.dart';
 import 'currrent_language_state.dart';
 
-@immutable
-class WordsDictionary {
-  const WordsDictionary(this.wordList, this.selectedWordIds, this.maxId);
+part 'words_dictionary_state.freezed.dart';
+part 'words_dictionary_state.g.dart';
 
-  final List<Word> wordList;
-  final Set<int> selectedWordIds;
-  final int maxId;
+@freezed
+class WordsDictionary with _$WordsDictionary {
+  const WordsDictionary._();
+  @JsonSerializable(explicitToJson: true)
+  const factory WordsDictionary(
+      {required List<Word> wordList,
+      required Set<int> selectedWordIds,
+      required int maxId}) = _WordsDictionary;
+
+  factory WordsDictionary.fromJson(Map<String, Object?> json) =>
+      _$WordsDictionaryFromJson(json);
 
   void printSelectedWords(CurrentLanguages currentLanguages) {
     final result =
@@ -39,30 +47,32 @@ int _maxIdInList(List<Word> wordList) {
 
 class WordsDictionaryNotifier extends StateNotifier<WordsDictionary> {
   WordsDictionaryNotifier(List<Word> wordList, Set<int> selectedWordIds)
-      : super(
-            WordsDictionary(wordList, selectedWordIds, _maxIdInList(wordList)));
+      : super(WordsDictionary(
+            wordList: wordList,
+            selectedWordIds: selectedWordIds,
+            maxId: _maxIdInList(wordList)));
 
   void addWord(Map<Language, String> translations) {
     var newWordList = state.wordList.toList();
-    final newWordtId = state.maxId + 1;
+    final newWordId = state.maxId + 1;
     final newWord = Word(
-        id: newWordtId, translations: Map<Language, String>.from(translations));
+        id: newWordId, translations: Map<Language, String>.from(translations));
     newWordList.add(newWord);
-    state = WordsDictionary(newWordList, state.selectedWordIds, newWordtId);
+    state = state.copyWith(wordList: newWordList, maxId: newWordId);
   }
 
   void removeSelectedWords() {
     var newWordList = state.wordList.toList();
     newWordList
         .removeWhere((element) => state.selectedWordIds.contains(element.id));
-    state = WordsDictionary(newWordList, {}, state.maxId);
+    state = state.copyWith(wordList: newWordList, selectedWordIds: {});
   }
 
   void selectWord(int wordId) {
     if (!state.selectedWordIds.contains(wordId)) {
       var newSelectedWordIds = state.selectedWordIds.toSet();
       newSelectedWordIds.add(wordId);
-      state = WordsDictionary(state.wordList, newSelectedWordIds, state.maxId);
+      state = state.copyWith(selectedWordIds: newSelectedWordIds);
     }
   }
 
@@ -70,7 +80,7 @@ class WordsDictionaryNotifier extends StateNotifier<WordsDictionary> {
     if (state.selectedWordIds.contains(wordId)) {
       var newSelectedWordIds = state.selectedWordIds.toSet();
       newSelectedWordIds.remove(wordId);
-      state = WordsDictionary(state.wordList, newSelectedWordIds, state.maxId);
+      state = state.copyWith(selectedWordIds: newSelectedWordIds);
     }
   }
 }
